@@ -1,0 +1,27 @@
+# Visual Studio system files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build folders
+bin/
+obj/
+
+# NuGet files
+project.nuget.cache
+project.assets.json
+*.nuspec
+*.nupkg
+
+# Log files
+*.log
+
+# Debug files
+Debug/
+Release/
+
+# Auto-generated files
+*.cache
+*.lock.json
