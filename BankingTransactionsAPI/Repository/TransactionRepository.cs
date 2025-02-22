@@ -18,7 +18,10 @@ namespace BankingTransactionsAPI.Repository
             _context.Transactions.Add(transaction);
             _context.SaveChanges();
         }
-
+        public IEnumerable<Transaction> GetAllTransactions()
+        {
+            return _context.Transactions.ToList();
+        }
         public IEnumerable<Transaction> GetByIdentityNumber(string identityNumber)
         {
             return _context.Transactions.Where(t => t.IdentityNumber == identityNumber).ToList();

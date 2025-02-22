@@ -22,6 +22,22 @@ namespace BankingTransactionsAPI.Controllers
             _baseUrl = configuration["BaseUrl"];
         }
 
+        [HttpGet("GetAllTransactions")]
+        public IActionResult GetAllTransactions()
+        {
+            var deposits = _transactionRepository.GetAllTransactions();
+            var result = deposits.Select(d => new
+            {
+                d.Amount,
+                d.AccountNumber,
+                d.IdentityNumber,
+                d.ExternalTransactionId,
+                d.TransactionDate
+            });
+
+            return Ok(result);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> CreateTransaction([FromBody] Transaction transaction)
         {
