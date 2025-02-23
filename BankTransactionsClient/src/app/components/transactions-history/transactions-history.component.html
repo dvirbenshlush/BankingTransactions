@@ -5,36 +5,38 @@
     <ng-container matColumnDef="accountNumber">
       <th mat-header-cell *matHeaderCellDef> Account Number </th>
       <td mat-cell *matCellDef="let transaction">
-        <input [(ngModel)]="transaction.accountNumber" />
+        <label *ngIf="!transaction.isEditing">{{ transaction.accountNumber }}</label>
+        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.accountNumber" />
       </td>
     </ng-container>
 
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef> Amount </th>
       <td mat-cell *matCellDef="let transaction">
-        <input [(ngModel)]="transaction.amount" type="number" />
+        <label *ngIf="!transaction.isEditing">{{ transaction.amount }}</label>
+        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.amount" type="number" />
       </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef> Status </th>
       <td mat-cell *matCellDef="let transaction">
-        <input [(ngModel)]="transaction.status" />
+        <label *ngIf="!transaction.isEditing">{{ transaction.status }}</label>
+        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.status" />
       </td>
     </ng-container>
 
     <ng-container matColumnDef="transactionDate">
       <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
       <td mat-cell *matCellDef="let transaction">
-        <input [(ngModel)]="transaction.transactionDate" type="date" />
+        {{ transaction.transactionDate | date:'MM/dd/yyyy HH:mm:ss' }}
       </td>
     </ng-container>
 
-    <!-- 🔹 עמודה חדשה לאייקונים -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let transaction" class="actions-column">
-        <button mat-icon-button (click)="editField(transaction)">
+        <button mat-icon-button (click)="toggleEdit(transaction)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button  (click)="deleteField(transaction)">

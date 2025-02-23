@@ -8,42 +8,47 @@ import { Transaction } from '../../models/transaction.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TransactionActions } from '../../state/bank/transaction.actions';
 import { selectTransactions } from '../../state/bank/transaction.selectors';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
   imports: [CommonModule, MatTableModule, FormsModule, MatIconModule, ReactiveFormsModule],
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.scss'],
+  templateUrl: './transactions-history.component.html',
+  styleUrls: ['./transactions-history.component.scss'],
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsHistoryComponent implements OnInit {
   transactions$: Observable<ReadonlyArray<Transaction>> = this.store.select(selectTransactions);
   displayedColumns: string[] = [
     'accountNumber',
     'amount',
     'status',
     'transactionDate',
-    'actions' // הוספת עמודת הפעולות
+    'actions'
   ];
-  // displayedColumns: string[] = ['accountNumber', 'amount', 'status', 'externalTransactionId', 'identityNumber', 'transactionDate'];
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private transactionService: TransactionService) {}
 
   ngOnInit() {
     this.store.dispatch(TransactionActions.loadTransactionHistory());
   }
 
-  toggleEdit(transaction: any) {
-    transaction.isEditing = !transaction.isEditing;
+  toggleEdit(transaction: Transaction) {
+    // transaction.isEditing = !(transaction.isEditing !== undefined ? transaction.isEditing : false);
+    const updatedTransaction = { ...transaction, isEditing: !(transaction.isEditing ?? false) };
+
+    if(updatedTransaction.isEditing)
+    {
+      this.editTransaction(updatedTransaction)
+    }
   }
 
-  editField(transaction: any) {
+  editTransaction(transaction: Transaction) {
     console.log(`Editing field: for transaction`, transaction);
-    // כאן תוכל להוסיף לוגיקה של שמירה על הערכים המועדים לשינוי
   }
 
-  deleteField(transaction: any) {
-    console.log(`Deleting field: for transaction`, transaction);
-    // כאן תוכל להוסיף לוגיקה למחיקת ערך מהשדה או מהטרנזקציה
+  deleteField(transaction: Transaction) {
+    this.transactionService.deleteTransaction(transaction.transactionDate).subscribe(res => console.log(res))
   }
+  
 }
