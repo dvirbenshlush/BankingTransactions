@@ -1,9 +1,18 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig } from '@angular/core';
+import { provideStore } from '@ngrx/store';
+import { provideHttpClient } from '@angular/common/http';
+import { transactionsReducer } from './state/bank/transaction.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { TransactionEffects } from './state/bank/transaction.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { routes } from './app.routes';
-import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration()]
+  providers: [
+    provideStore({
+      transactions: transactionsReducer, 
+    }),
+    provideHttpClient(),
+    provideEffects([TransactionEffects]), provideAnimationsAsync()
+],
 };
