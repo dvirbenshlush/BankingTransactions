@@ -31,14 +31,13 @@ namespace BankingTransactionsAPI.Controllers
                 d.Amount,
                 d.AccountNumber,
                 d.IdentityNumber,
-                d.ExternalTransactionId,
                 d.TransactionDate
             });
 
             return Ok(result);
         }
 
-        [HttpPost("create")]
+        [HttpPost("CreateTransaction")]
         public async Task<IActionResult> CreateTransaction([FromBody] Transaction transaction)
         {
             if (!ModelState.IsValid)
@@ -58,14 +57,13 @@ namespace BankingTransactionsAPI.Controllers
 
             if (apiResponse.Code == "SUCCESS")
             {
-                transaction.ExternalTransactionId = apiResponse.Data;
                 _transactionRepository.Add(transaction);
 
                 return Ok(transaction);
             }
             else
             {
-                return BadRequest("Transaction failed.");
+                return BadRequest("Transaction failed."); 
             }
         }
 
