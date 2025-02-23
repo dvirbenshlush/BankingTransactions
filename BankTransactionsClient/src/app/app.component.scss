@@ -1,31 +1,33 @@
 html, body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  .transactions-container {
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    width: 715px; /* Set the desired width for the container */
-    position: fixed; /* Fixed position to keep it on the left */
-    top: 0;
-    left: 0;
-    background-color: #f9f9f9; /* Background color for the container */
-    border-right: 1px solid #ccc; /* Optional border */
-    padding: 10px; /* Optional padding */
-  }
-  
-  .form-container {
-    width: 400px; /* Keep the same width */
-    min-height: 500px; /* Set a minimum height */
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 20px; /* Use right margin to space it from the right edge */
-    background-color: #f9f9f9;
-    position: fixed; /* Use fixed positioning to keep it in place */
-    top: 20px; /* Position from the top */
-    right: 20px; /* Position from the right edge */
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
-  }
-  
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.transactions-container {
+  flex: 2;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.form-container {
+  flex: 1;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  overflow-y: auto;
+}

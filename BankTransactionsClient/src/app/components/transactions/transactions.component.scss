@@ -1,27 +1,60 @@
 table {
-    width: 100%; 
-    border-collapse: collapse; 
-    table-layout: auto; 
-  }
-  
-  th, td {
-    border: 1px solid #dee2e6; 
-    padding: 8px; 
-    text-align: left; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    white-space: nowrap; 
-  }
-  
-  .deposit {
-    background-color: #d4edda; 
-  }
-  
-  .withdrawal {
-    background-color: #f8d7da; 
-  }
-  
-  th {
-    background-color: #f2f2f2; 
-  }
-  
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+th, td {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deposit {
+  background-color: #d4edda;
+}
+
+.withdrawal {
+  background-color: #f8d7da;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.actions-column {
+  text-align: center;
+  min-width: 120px;
+}
+
+button.mat-icon-button {
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease-in-out;
+}
+
+button.mat-icon-button.edit-icon {
+  color: #1976d2;
+}
+
+button.mat-icon-button.edit-icon:hover {
+  color: #0d47a1;
+  transform: scale(1.2);
+}
+
+button.mat-icon-button.delete-icon {
+  color: #d32f2f;
+}
+
+button.mat-icon-button.delete-icon:hover {
+  color: #b71c1c;
+  transform: scale(1.2);
+}
+
+.mat-icon {
+  font-size: 20px;
+  vertical-align: middle;
+}
