@@ -1,65 +1,68 @@
 <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
     <div>
-        <label for="fullName">full name hebrew</label>
-        <input id="fullName" formControlName="fullName" />
-        <div *ngIf="form['fullName'].invalid && (form['fullName'].touched || form['fullName'].dirty)">
-          <small *ngIf="form['fullName']['errors']?.['required']" class="error-message">Account number is required.</small>
+        <label for="FullName">Full Name Hebrew</label>
+        <input id="FullName" formControlName="FullName" />
+        <div *ngIf="form['FullName'].invalid && (form['FullName'].touched || form['FullName'].dirty)">
+          <small *ngIf="form['FullName'].errors?.['required']" class="error-message">יש להזין שם מלא בעברית.</small>
+          <small *ngIf="form['FullName'].errors?.['pattern']" class="error-message">שם בעברית בלבד (ללא מספרים או אותיות באנגלית).</small>
         </div>
-      </div>
-    
-      <div>
-        <label for="fullNameEnglish">full name english</label>
-        <input id="fullNameEnglish" formControlName="fullNameEnglish" />
-        <div *ngIf="form['fullNameEnglish'].invalid && (form['fullNameEnglish'].touched || form['fullNameEnglish'].dirty)">
-          <small *ngIf="form['fullNameEnglish']['errors']?.['required']" class="error-message">Account number is required.</small>
-        </div>
-      </div>
+    </div>
     
     <div>
-      <label for="accountNumber">Account Number</label>
-      <input id="accountNumber" formControlName="accountNumber" />
-      <div *ngIf="form['accountNumber'].invalid && (form['accountNumber'].touched || form['accountNumber'].dirty)">
-        <small *ngIf="form['accountNumber']['errors']?.['required']" class="error-message">Account number is required.</small>
+        <label for="FullNameEnglish">Full Name English</label>
+        <input id="FullNameEnglish" formControlName="FullNameEnglish" />
+        <div *ngIf="form['FullNameEnglish'].invalid && (form['FullNameEnglish'].touched || form['FullNameEnglish'].dirty)">
+          <small *ngIf="form['FullNameEnglish'].errors?.['required']" class="error-message">יש להזין שם מלא באנגלית.</small>
+          <small *ngIf="form['FullNameEnglish'].errors?.['pattern']" class="error-message">שם באנגלית בלבד (ללא מספרים או אותיות בעברית).</small>
+        </div>
+    </div>
+    
+    <div>
+      <label for="AccountNumber">Account Number</label>
+      <input id="AccountNumber" formControlName="AccountNumber" />
+      <div *ngIf="form['AccountNumber'].invalid && (form['AccountNumber'].touched || form['AccountNumber'].dirty)">
+        <small *ngIf="form['AccountNumber'].errors?.['required']" class="error-message">יש להזין מספר חשבון.</small>
+        <small *ngIf="form['AccountNumber'].errors?.['pattern']" class="error-message">מספר חשבון חייב להיות מספרים בלבד (עד 10 ספרות).</small>
       </div>
     </div>
   
     <div>
-      <label for="amount">Amount</label>
-      <input id="amount" formControlName="amount" type="number" />
-      <div *ngIf="form['amount'].invalid && (form['amount'].touched || form['amount'].dirty)">
-        <small *ngIf="form['amount'].errors?.['required']" class="error-message">Amount is required.</small>
-        <small *ngIf="form['amount'].errors?.['min']" class="error-message">Amount must be greater than 0.</small>
+      <label for="Amount">Amount</label>
+      <input id="Amount" formControlName="Amount" type="number" />
+      <div *ngIf="form['Amount'].invalid && (form['Amount'].touched || form['Amount'].dirty)">
+        <small *ngIf="form['Amount'].errors?.['required']" class="error-message">יש להזין סכום.</small>
+        <small *ngIf="form['Amount'].errors?.['min']" class="error-message">הסכום חייב להיות גדול מ-0.</small>
       </div>
     </div>
   
     <div>
-      <label for="status">Status</label>
-      <select id="transactionType" formControlName="transactionType">
-        <option value="" disabled>Select status</option>
+      <label for="TransactionType">Transaction Type</label>
+      <select id="TransactionType" formControlName="TransactionType">
+        <option value="" disabled>Select transaction type</option>
         <option value="Deposit">Deposit</option>
         <option value="Withdrawal">Withdrawal</option>
       </select>
-      <div *ngIf="form['transactionType'].invalid && (form['transactionType'].touched || form['transactionType'].dirty)">
-        <small *ngIf="form['transactionType'].errors?.['required']" class="error-message">Status is required.</small>
+      <div *ngIf="form['TransactionType'].invalid && (form['TransactionType'].touched || form['TransactionType'].dirty)">
+        <small *ngIf="form['TransactionType'].errors?.['required']" class="error-message">יש לבחור סוג עסקה.</small>
       </div>
     </div>
   
     <div>
-      <label for="identityNumber">Identity Number</label>
-      <input id="identityNumber" formControlName="identityNumber" />
-      <div *ngIf="form['identityNumber'].invalid && (form['identityNumber'].touched || form['identityNumber'].dirty)">
-        <small *ngIf="form['identityNumber'].errors?.['required']" class="error-message">Identity Number is required.</small>
+      <label for="IdentityNumber">Identity Number</label>
+      <input id="IdentityNumber" formControlName="IdentityNumber" />
+      <div *ngIf="form['IdentityNumber'].invalid && (form['IdentityNumber'].touched || form['IdentityNumber'].dirty)">
+        <small *ngIf="form['IdentityNumber'].errors?.['required']" class="error-message">יש להזין מספר תעודת זהות.</small>
+        <small *ngIf="form['IdentityNumber'].errors?.['pattern']" class="error-message">מספר תעודת זהות חייב להיות בן 9 ספרות.</small>
       </div>
     </div>
   
     <div>
-      <label for="birthDate">Transaction Date</label>
-      <input id="birthDate" formControlName="birthDate" type="date" />
-      <div *ngIf="form['birthDate'].invalid && (form['birthDate'].touched || form['birthDate'].dirty)">
-        <small *ngIf="form['birthDate'].errors?.['required']" class="error-message">Transaction Date is required.</small>
+      <label for="Date">birthdate</label>
+      <input id="Date" formControlName="Date" type="date" />
+      <div *ngIf="form['Date'].invalid && (form['Date'].touched || form['Date'].dirty)">
+        <small *ngIf="form['Date'].errors?.['required']" class="error-message">יש להזין תאריך עסקה.</small>
       </div>
     </div>
   
-    <button (click)="onSubmit()">Submit</button>
-  </form>
-  
+    <button type="submit">Submit</button>
+</form>

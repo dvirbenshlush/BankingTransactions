@@ -16,31 +16,30 @@ export class TransactionFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private transactionService: TransactionService) {}
 
-  ngOnInit() {Object.keys(this.transactionForm.controls).forEach(key => {
-    const controlErrors = this.transactionForm.controls[key].errors;
-      if (controlErrors) {
-        console.log(`Error in ${key}:`, controlErrors);
-      }
-    });
+  ngOnInit() {
     this.transactionForm = this.fb.group({
-      fullName:     [
+      FullName: ['', [
         Validators.required,
         Validators.pattern("^[\u0590-\u05FF\\s'\\-]+$"), 
         Validators.maxLength(20)
-      ],
-      fullNameEnglish: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern("^[A-Za-z\\s'\\-]+$"), // English characters, spaces, apostrophes, hyphens
-          Validators.maxLength(15)
-        ]
-      ],
-      accountNumber: ['', [Validators.required, Validators.pattern('^\\d{1,10}$')]],
-      birthDate: ['', [Validators.required]],
-      identityNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
-      transactionType: ['', [Validators.required]],
-      amount: ['', [Validators.required, Validators.pattern('^\\d{1,10}$')]],
+      ]],
+      FullNameEnglish: ['', [
+        Validators.required,
+        Validators.pattern("^[A-Za-z\\s'\\-]+$"),
+        Validators.maxLength(15)
+      ]],
+      AccountNumber: ['', [Validators.required, Validators.pattern('^\\d{1,10}$')]],
+      Date: ['', [Validators.required]],
+      IdentityNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
+      TransactionType: ['', [Validators.required]],
+      Amount: ['', [Validators.required, Validators.min(1)]],
+    });
+
+    Object.keys(this.transactionForm.controls).forEach(key => {
+      const controlErrors = this.transactionForm.controls[key].errors;
+      if (controlErrors) {
+        console.log(`Error in ${key}:`, controlErrors);
+      }
     });
   }
 
