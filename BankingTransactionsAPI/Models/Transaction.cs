@@ -8,7 +8,6 @@ namespace BankingTransactionsAPI.Models
         [Required]
         [Range(0, 9999999999, ErrorMessage = "Amount must be up to 10 digits.")]
         public decimal Amount { get; set; }
-        public string Status { get; set; }
         [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
@@ -34,7 +33,6 @@ namespace BankingTransactionsAPI.Models
         public string AccountNumber { get; set; }
         [Required]
         public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
-        public string ExternalTransactionId { get; set; }
 
     }
 }

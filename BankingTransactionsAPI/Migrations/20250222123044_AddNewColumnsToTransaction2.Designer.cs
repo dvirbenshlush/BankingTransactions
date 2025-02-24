@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BankingTransactionsAPI.Migrations
 {
-    [DbContext(typeof(TransactionDbContext))]
+    [DbContext(typeof(TransactionHistoryDbContext))]
     [Migration("20250222123044_AddNewColumnsToTransaction2")]
     partial class AddNewColumnsToTransaction2
     {
