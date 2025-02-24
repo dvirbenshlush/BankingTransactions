@@ -37,6 +37,20 @@ namespace BankingTransactionsAPI.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("DeleteTransaction")]
+        public IActionResult DeleteTransaction(DateTime transactionDate)
+        {
+            var result = _transactionRepository.DeleteTransaction(transactionDate);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateTransaction")]
+        public IActionResult UpdateTransaction(Transaction transaction)
+        {
+            var result = _transactionRepository.UpdateTransaction(transaction);
+            return Ok(result);
+        }
+
         [HttpPost("CreateTransaction")]
         public async Task<IActionResult> CreateTransaction([FromBody] Transaction transaction)
         {

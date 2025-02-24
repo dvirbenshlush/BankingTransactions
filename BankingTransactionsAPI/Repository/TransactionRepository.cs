@@ -26,6 +26,34 @@ namespace BankingTransactionsAPI.Repository
         {
             return _context.Transactions.Where(t => t.IdentityNumber == identityNumber).ToList();
         }
+
+        public bool DeleteTransaction(DateTime transactionDate)
+        {
+            var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionDate.Date == transactionDate.Date);
+            if (transaction == null)
+                return false;
+
+            _context.Transactions.Remove(transaction);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool UpdateTransaction(Transaction transaction)
+        {
+            DateTime transactionDate = transaction.TransactionDate;
+            var existingTransaction = _context.Transactions.FirstOrDefault(t => t.TransactionDate == transactionDate);
+            if (existingTransaction == null)
+                return false;
+
+            existingTransaction.Amount = transaction.Amount;
+            existingTransaction.TransactionDate = transaction.TransactionDate;
+            existingTransaction.AccountNumber = transaction.AccountNumber;
+            existingTransaction.IdentityNumber = transaction.IdentityNumber;
+            existingTransaction.TransactionType = transaction.TransactionType;
+
+            _context.SaveChanges();
+            return true;
+        }
     }
 
 }
