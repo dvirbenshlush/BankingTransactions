@@ -19,6 +19,10 @@ export class TransactionService {
     return this.http.post<ApiResponse>(this.apiUrl + 'Transactions/CreateTransaction', transaction);
   }
 
+  updateTransaction(transaction: Transaction): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>(this.apiUrl + 'Transactions/UpdateTransaction', transaction);
+  }
+
   deleteTransaction(transactionDate: Date): Observable<ApiResponse> {
     return this.http.delete<ApiResponse>(`${this.apiUrl}Transactions/DeleteTransaction?transactionDate=${transactionDate}`);
   }

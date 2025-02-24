@@ -34,17 +34,21 @@ export class TransactionsHistoryComponent implements OnInit {
   }
 
   toggleEdit(transaction: Transaction) {
-    // transaction.isEditing = !(transaction.isEditing !== undefined ? transaction.isEditing : false);
     const updatedTransaction = { ...transaction, isEditing: !(transaction.isEditing ?? false) };
 
-    if(updatedTransaction.isEditing)
+    this.store.dispatch(TransactionActions.updateTransaction({
+      transactionId: transaction.externalTransactionId,
+      updatedTransaction
+    }));
+
+    if(transaction.isEditing)
     {
-      this.editTransaction(updatedTransaction)
+      this.editTransaction(transaction)
     }
   }
 
   editTransaction(transaction: Transaction) {
-    console.log(`Editing field: for transaction`, transaction);
+    this.transactionService.updateTransaction(transaction).subscribe(res => console.log(res))
   }
 
   deleteField(transaction: Transaction) {
