@@ -2,7 +2,7 @@
 
 namespace BankingTransactionsAPI.Models
 {
-    public class Transaction
+    public class CustomerDetails
     {
         public int Id { get; set; }
         [Required]

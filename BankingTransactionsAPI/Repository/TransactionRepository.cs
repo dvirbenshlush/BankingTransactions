@@ -18,6 +18,12 @@ namespace BankingTransactionsAPI.Repository
             _context.TransactionHistories.Add(transaction);
             _context.SaveChanges();
         }
+
+        public void AddCustomerDetails(CustomerDetails customer)
+        {
+            _context.CustomerDetails.Add(customer);
+            _context.SaveChanges();
+        }
         public IEnumerable<TransactionHistory> GetAllTransactions()
         {
             return _context.TransactionHistories.ToList();

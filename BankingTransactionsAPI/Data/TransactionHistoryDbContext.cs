@@ -6,6 +6,7 @@ public class TransactionHistoryDbContext : DbContext
     public TransactionHistoryDbContext(DbContextOptions<TransactionHistoryDbContext> options) : base(options) { }
 
     public DbSet<TransactionHistory> TransactionHistories { get; set; }
+    public DbSet<CustomerDetails> CustomerDetails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
