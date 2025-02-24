@@ -2,27 +2,36 @@
   <h2>Transaction History</h2>
   <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="accountNumber">
-      <th mat-header-cell *matHeaderCellDef> Account Number </th>
+    <ng-container matColumnDef="identityNumber">
+      <th mat-header-cell *matHeaderCellDef> identityNumber </th>
       <td mat-cell *matCellDef="let transaction">
-        <label *ngIf="!transaction.isEditing">{{ transaction.accountNumber }}</label>
-        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.accountNumber" />
+        {{ transaction.identityNumber }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="amount">
       <th mat-header-cell *matHeaderCellDef> Amount </th>
       <td mat-cell *matCellDef="let transaction">
-        <label *ngIf="!transaction.isEditing">{{ transaction.amount }}</label>
-        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.amount" type="number" />
+        <label *ngIf="!transaction.isEditing">
+          {{ transaction.amount }}
+        </label>
+        <input *ngIf="transaction.isEditing" 
+        [(ngModel)]="transaction.amount" 
+        (ngModelChange)="onFieldChange(transaction, 'amount', $event)" 
+        type="number" />
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Status </th>
+    <ng-container matColumnDef="transactionType">
+      <th mat-header-cell *matHeaderCellDef> transactionType </th>
       <td mat-cell *matCellDef="let transaction">
-        <label *ngIf="!transaction.isEditing">{{ transaction.status }}</label>
-        <input *ngIf="transaction.isEditing" [(ngModel)]="transaction.status" />
+        <label *ngIf="!transaction.isEditing">
+          {{ transaction.transactionType }}
+        </label>
+        <input *ngIf="transaction.isEditing" 
+        [(ngModel)]="transaction.transactionType" 
+        (ngModelChange)="onFieldChange(transaction, 'transactionType', $event)" 
+        />
       </td>
     </ng-container>
 

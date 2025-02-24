@@ -1,3 +1,4 @@
 export interface ApiResponse {
-    statusCode: number
+    statusCode: string,
+    statusMessage: string
 }
