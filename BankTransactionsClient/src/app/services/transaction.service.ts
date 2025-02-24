@@ -12,10 +12,10 @@ export class TransactionService {
   constructor(private http: HttpClient) {}
 
   getTransactionHistory(): Observable<Array<Transaction>> {
-    return this.http.get<any[]>(this.apiUrl + 'Transactions/getAllTransactions');
+    return this.http.get<any[]>(this.apiUrl + 'Transactions/GetAllTransactions');
   }
 
   createTransaction(req: TransactionRequest): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(this.apiUrl + 'Transactions/createTransaction', req);
+    return this.http.post<ApiResponse>(this.apiUrl + 'Transactions/CreateTransaction', req);
   }
 }
