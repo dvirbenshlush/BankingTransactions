@@ -6,53 +6,64 @@ namespace BankingTransactionsAPI.Repository
 {
     public class TransactionRepository
     {
-        private readonly TransactionDbContext _context;
+        private readonly TransactionHistoryDbContext _context;
 
-        public TransactionRepository(TransactionDbContext context)
+        public TransactionRepository(TransactionHistoryDbContext context)
         {
             _context = context;
         }
 
-        public void Add(Transaction transaction)
+        public void Add(TransactionHistory transaction)
         {
-            _context.Transactions.Add(transaction);
+            _context.TransactionHistories.Add(transaction);
             _context.SaveChanges();
         }
-        public IEnumerable<Transaction> GetAllTransactions()
+        public IEnumerable<TransactionHistory> GetAllTransactions()
         {
-            return _context.Transactions.ToList();
+            return _context.TransactionHistories.ToList();
         }
-        public IEnumerable<Transaction> GetByIdentityNumber(string identityNumber)
+        public IEnumerable<TransactionHistory> GetByIdentityNumber(string identityNumber)
         {
-            return _context.Transactions.Where(t => t.IdentityNumber == identityNumber).ToList();
+            return _context.TransactionHistories.Where(t => t.IdentityNumber == identityNumber).ToList();
         }
 
-        public bool DeleteTransaction(DateTime transactionDate)
+        public ApiResponse DeleteTransaction(DateTime transactionDate)
         {
-            var transaction = _context.Transactions.FirstOrDefault(t => t.TransactionDate.Date == transactionDate.Date);
+            var respnse = new ApiResponse();
+            var transaction = _context.TransactionHistories.FirstOrDefault(t => t.TransactionDate.Date == transactionDate.Date);
             if (transaction == null)
-                return false;
+            {
+                respnse.statusMessage = "no match for this transaction";
+                return respnse;
+            }
 
-            _context.Transactions.Remove(transaction);
+            _context.TransactionHistories.Remove(transaction);
             _context.SaveChanges();
-            return true;
+            respnse.statusMessage = "success";
+            respnse.Code = "200";
+            return respnse;
         }
 
-        public bool UpdateTransaction(Transaction transaction)
+        public ApiResponse UpdateTransaction(TransactionHistory transaction)
         {
+            var respnse = new ApiResponse();
             DateTime transactionDate = transaction.TransactionDate;
-            var existingTransaction = _context.Transactions.FirstOrDefault(t => t.TransactionDate == transactionDate);
+            var existingTransaction = _context.TransactionHistories.FirstOrDefault(t => t.TransactionDate == transactionDate);
             if (existingTransaction == null)
-                return false;
+            {
+                respnse.statusMessage = "no match for this transaction";
+                return respnse;
+            }
 
             existingTransaction.Amount = transaction.Amount;
             existingTransaction.TransactionDate = transaction.TransactionDate;
-            existingTransaction.AccountNumber = transaction.AccountNumber;
             existingTransaction.IdentityNumber = transaction.IdentityNumber;
             existingTransaction.TransactionType = transaction.TransactionType;
 
             _context.SaveChanges();
-            return true;
+            respnse.statusMessage = "success";
+            respnse.Code = "200";
+            return respnse;
         }
     }
 

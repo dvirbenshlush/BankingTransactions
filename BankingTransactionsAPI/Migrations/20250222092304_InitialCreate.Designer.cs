@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BankingTransactionsAPI.Migrations
 {
-    [DbContext(typeof(TransactionDbContext))]
+    [DbContext(typeof(TransactionHistoryDbContext))]
     [Migration("20250222092304_InitialCreate")]
     partial class InitialCreate
     {

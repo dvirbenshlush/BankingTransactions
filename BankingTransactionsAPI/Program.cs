@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpClient();
 
 // Add DbContext
-builder.Services.AddDbContext<TransactionDbContext>(options =>
+builder.Services.AddDbContext<TransactionHistoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<TransactionRepository>();
