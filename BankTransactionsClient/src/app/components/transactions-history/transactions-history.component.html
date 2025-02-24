@@ -25,7 +25,8 @@
     <ng-container matColumnDef="transactionType">
       <th mat-header-cell *matHeaderCellDef> transactionType </th>
       <td mat-cell *matCellDef="let transaction">
-        <label *ngIf="!transaction.isEditing">
+        <label *ngIf="!transaction.isEditing"
+        [ngStyle]="{'color': transaction.transactionType === 'Deposit' ? 'red' : 'green'}">
           {{ transaction.transactionType }}
         </label>
         <input *ngIf="transaction.isEditing" 
