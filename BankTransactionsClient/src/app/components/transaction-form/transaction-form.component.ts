@@ -1,8 +1,10 @@
 import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionRequest } from '../../models/transaction-request.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SuccessfulDialogComponent } from '../successful-dialog/successful-dialog.component';
 
 @Component({
   selector: 'app-transaction-form',
@@ -14,7 +16,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class TransactionFormComponent implements OnInit {
   transactionForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private transactionService: TransactionService) {}
+  constructor(
+    private fb: FormBuilder, 
+    private transactionService: TransactionService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.transactionForm = this.fb.group({
@@ -34,25 +40,28 @@ export class TransactionFormComponent implements OnInit {
       TransactionType: ['', [Validators.required]],
       Amount: ['', [Validators.required, Validators.min(1)]],
     });
-
-    Object.keys(this.transactionForm.controls).forEach(key => {
-      const controlErrors = this.transactionForm.controls[key].errors;
-      if (controlErrors) {
-        console.log(`Error in ${key}:`, controlErrors);
-      }
-    });
   }
 
   onSubmit() {
     if (this.transactionForm.valid) {
       const transactionRequest = (this.transactionForm.value) as TransactionRequest
       this.transactionService.createTransaction(transactionRequest).subscribe(res => {
-        console.log(res);
-      })
+        if(res.statusMessage ==="success") {
+          this.openDialog('user created');
+        }
+      });
     } else {
-
       this.transactionForm.markAllAsTouched(); 
     }
+  }
+
+  openDialog(message: string): void {
+    this.dialog.open(SuccessfulDialogComponent, {
+      width: '400px',
+      data: {
+        message: message
+      }
+    });
   }
 
   get form() {

@@ -12,7 +12,9 @@ export class TransactionEffects {
             ofType(TransactionActions.loadTransactionHistory),
             mergeMap(() =>
             this.transactionService.getTransactionHistory().pipe(
-                map(transaction =>  TransactionApiActions.loadTransactionsSuccess({ transaction })),
+                map(transaction =>  {
+                    return {...TransactionApiActions.loadTransactionsSuccess({ transaction }), isEditing: false }
+                }),
                 catchError(error => of(TransactionApiActions.loadTransactionsFailure({ error })))
             )
             )

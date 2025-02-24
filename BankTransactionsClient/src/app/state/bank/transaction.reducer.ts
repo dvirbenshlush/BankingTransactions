@@ -11,10 +11,13 @@ export const transactionHistory: ReadonlyArray<Transaction> = [];
 export const transactionsReducer = createReducer(
     transactionHistory,
     on(TransactionApiActions.loadTransactionsSuccess, (state, { transaction }) => {
-        return [...transaction]; 
+        return transaction.map(t => ({ ...t, isEditing: false }));
     }),
     on(TransactionApiActions.loadTransactionsFailure, (state, { error }) => {
     console.error('Failed to load transactions:', error);
     return state;
-    })
+    }),
+    on(TransactionActions.updateTransaction, (state, { transactionId, updatedTransaction }) => {
+        return state.map(t => t.externalTransactionId === transactionId ? updatedTransaction : t);
+      }),
 );

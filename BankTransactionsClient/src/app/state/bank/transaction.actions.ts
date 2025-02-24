@@ -7,7 +7,7 @@ export const TransactionActions = createActionGroup({
       'Deposit Transaction': props<{ transaction: Transaction }>(),
       'Withdrawal Transaction': props<{ transaction: Transaction }>(),
       'Remove Transaction': props<{ transactionId: string }>(),
-      'Update Transaction': props<{ transactionId: string; quantity: number }>(),
+      'Update Transaction': props<{ transactionId: string; updatedTransaction: Transaction }>(),
       'Load Transaction History': emptyProps(),
     },
 });
