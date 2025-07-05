@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Job Match Score",
+    "version": "1.0",
+    "description": "Chrome extension that shows job match score based on resume and preferences.",
+    "permissions": ["storage", "activeTab", "scripting"],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icon.png"
+      }
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],  
+        "js": ["content.js"]
+      }
+    ]
+  }
+  
