@@ -1,0 +1,68 @@
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+  <div>
+      <label for="FullName">Full Name Hebrew</label>
+      <input id="FullName" formControlName="FullName" />
+      <div *ngIf="form['FullName'].invalid && (form['FullName'].touched || form['FullName'].dirty)">
+        <small *ngIf="form['FullName'].errors?.['required']" class="error-message">Full name in Hebrew is required.</small>
+        <small *ngIf="form['FullName'].errors?.['pattern']" class="error-message">Hebrew letters only (no numbers or English letters).</small>
+      </div>
+  </div>
+  
+  <div>
+      <label for="FullNameEnglish">Full Name English</label>
+      <input id="FullNameEnglish" formControlName="FullNameEnglish" />
+      <div *ngIf="form['FullNameEnglish'].invalid && (form['FullNameEnglish'].touched || form['FullNameEnglish'].dirty)">
+        <small *ngIf="form['FullNameEnglish'].errors?.['required']" class="error-message">Full name in English is required.</small>
+        <small *ngIf="form['FullNameEnglish'].errors?.['pattern']" class="error-message">English letters only (no numbers or Hebrew letters).</small>
+      </div>
+  </div>
+  
+  <div>
+    <label for="AccountNumber">Account Number</label>
+    <input id="AccountNumber" formControlName="AccountNumber" />
+    <div *ngIf="form['AccountNumber'].invalid && (form['AccountNumber'].touched || form['AccountNumber'].dirty)">
+      <small *ngIf="form['AccountNumber'].errors?.['required']" class="error-message">Account number is required.</small>
+      <small *ngIf="form['AccountNumber'].errors?.['pattern']" class="error-message">Account number must be numbers only (up to 10 digits).</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="Amount">Amount</label>
+    <input id="Amount" formControlName="Amount" type="number" />
+    <div *ngIf="form['Amount'].invalid && (form['Amount'].touched || form['Amount'].dirty)">
+      <small *ngIf="form['Amount'].errors?.['required']" class="error-message">Amount is required.</small>
+      <small *ngIf="form['Amount'].errors?.['min']" class="error-message">Amount must be greater than 0.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="TransactionType">Transaction Type</label>
+    <select id="TransactionType" formControlName="TransactionType">
+      <option value="" disabled>Select transaction type</option>
+      <option value="Deposit">Deposit</option>
+      <option value="Withdrawal">Withdrawal</option>
+    </select>
+    <div *ngIf="form['TransactionType'].invalid && (form['TransactionType'].touched || form['TransactionType'].dirty)">
+      <small *ngIf="form['TransactionType'].errors?.['required']" class="error-message">Transaction type is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="IdentityNumber">Identity Number</label>
+    <input id="IdentityNumber" formControlName="IdentityNumber" />
+    <div *ngIf="form['IdentityNumber'].invalid && (form['IdentityNumber'].touched || form['IdentityNumber'].dirty)">
+      <small *ngIf="form['IdentityNumber'].errors?.['required']" class="error-message">Identity number is required.</small>
+      <small *ngIf="form['IdentityNumber'].errors?.['pattern']" class="error-message">Identity number must be 9 digits.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="Date">Birthdate</label>
+    <input id="Date" formControlName="Date" type="date" />
+    <div *ngIf="form['Date'].invalid && (form['Date'].touched || form['Date'].dirty)">
+      <small *ngIf="form['Date'].errors?.['required']" class="error-message">Transaction date is required.</small>
+    </div>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>

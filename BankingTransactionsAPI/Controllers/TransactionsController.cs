@@ -29,43 +29,75 @@ namespace BankingTransactionsAPI.Controllers
             var result = deposits.Select(d => new
             {
                 d.Amount,
-                d.AccountNumber,
+                d.TransactionType,
                 d.IdentityNumber,
-                d.ExternalTransactionId,
                 d.TransactionDate
             });
 
             return Ok(result);
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateTransaction([FromBody] Transaction transaction)
+        [HttpDelete("DeleteTransaction")]
+        public IActionResult DeleteTransaction(DateTime transactionDate)
         {
+            var result = _transactionRepository.DeleteTransaction(transactionDate);
+            return Ok(result);
+        }
+
+        [HttpPost("UpdateTransaction")]
+        public IActionResult UpdateTransaction(TransactionHistory transaction)
+        {
+            var result = _transactionRepository.UpdateTransaction(transaction);
+            return Ok(result);
+        }
+
+        [HttpPost("CreateTransaction")]
+        public async Task<ApiResponse> CreateTransaction([FromBody] CustomerDetails customer)
+        {
+            var respnse = new ApiResponse();
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                respnse.statusMessage = "Reques invalid.";
+                respnse.Code = "500";
+                return respnse;
             }
 
-            var tokenResponse = await GetTokenAsync(transaction.IdentityNumber);
+            var tokenResponse = await GetTokenAsync(customer.IdentityNumber);
             if (tokenResponse.Code != "SUCCESS")
             {
-                return BadRequest("Token retrieval failed.");
+                respnse.statusMessage = "Token retrieval failed.";
+                respnse.Code = "500";
+                return respnse;
             }
 
-            var apiResponse = transaction.TransactionType == "Deposit"
-                ? await CreateDepositAsync(transaction)
-                : await CreateWithdrawalAsync(transaction);
+            _transactionRepository.AddCustomerDetails(customer);
+
+            TransactionHistory transactionHistory = new TransactionHistory()
+            {
+                IdentityNumber = customer.IdentityNumber,
+                TransactionType = customer.TransactionType,
+                Amount = customer.Amount,
+                TransactionDate = customer.TransactionDate
+            };
+
+            var apiResponse = customer.TransactionType == "Deposit"
+                ? await CreateDepositAsync(customer)
+                : await CreateWithdrawalAsync(customer);
 
             if (apiResponse.Code == "SUCCESS")
             {
-                transaction.ExternalTransactionId = apiResponse.Data;
-                _transactionRepository.Add(transaction);
+                _transactionRepository.Add(transactionHistory);
 
-                return Ok(transaction);
+                respnse.statusMessage = "success";
+                respnse.Code = "200";
+                return respnse;
             }
             else
             {
-                return BadRequest("Transaction failed.");
+                respnse.statusMessage = "Transaction failed.";
+                respnse.Code = "500";
+                return respnse;
             }
         }
 
@@ -84,30 +116,30 @@ namespace BankingTransactionsAPI.Controllers
                 : new ApiResponse { Code = "SUCCESS", Data = "MockToken12345" };
         }
 
-        private async Task<ApiResponse> CreateDepositAsync(Transaction transaction)
+        private async Task<ApiResponse> CreateDepositAsync(CustomerDetails customer)
         {
-            var tokenResponse = await GetTokenAsync(transaction.IdentityNumber);
+            var tokenResponse = await GetTokenAsync(customer.IdentityNumber);
             if (tokenResponse.Code != "SUCCESS")
             {
                 return new ApiResponse { Code = "ERROR", Data = "Failed to get token" };
             }
 
-            var requestBody = new TransactionDTO() { Amount = transaction.Amount, AccountNumber = transaction.AccountNumber };
+            var requestBody = new TransactionDTO() { Amount = customer.Amount, IdentityNumber = customer.IdentityNumber };
             var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
             await Task.Delay(500);
             return new ApiResponse { Code = "SUCCESS", Data = "Deposit Completed" };
         }
 
-        private async Task<ApiResponse> CreateWithdrawalAsync(Transaction transaction)
+        private async Task<ApiResponse> CreateWithdrawalAsync(CustomerDetails customer)
         {
-            var tokenResponse = await GetTokenAsync(transaction.IdentityNumber);
+            var tokenResponse = await GetTokenAsync(customer.IdentityNumber);
             if (tokenResponse.Code != "SUCCESS")
             {
                 return new ApiResponse { Code = "ERROR", Data = "Failed to get token" };
             }
 
-            var requestBody = new TransactionDTO() { Amount = transaction.Amount, AccountNumber = transaction.AccountNumber };
+            var requestBody = new TransactionDTO() { Amount = customer.Amount, IdentityNumber = customer.IdentityNumber };
             var content = new StringContent(JsonSerializer.Serialize(requestBody), Encoding.UTF8, "application/json");
 
             await Task.Delay(500);

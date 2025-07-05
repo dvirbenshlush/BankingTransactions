@@ -3,11 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        builder => builder.WithOrigins("http://localhost:4200") // Angular app's URL
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 // Add services to the container.
 builder.Services.AddHttpClient();
 
 // Add DbContext
-builder.Services.AddDbContext<TransactionDbContext>(options =>
+builder.Services.AddDbContext<TransactionHistoryDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<TransactionRepository>();
@@ -28,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 

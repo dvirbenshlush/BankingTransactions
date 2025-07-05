@@ -1,0 +1,61 @@
+<div *ngIf="transactions$ | async as transactions">
+  <h2>Transaction History</h2>
+  <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="identityNumber">
+      <th mat-header-cell *matHeaderCellDef> identityNumber </th>
+      <td mat-cell *matCellDef="let transaction">
+        {{ transaction.identityNumber }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef> Amount </th>
+      <td mat-cell *matCellDef="let transaction">
+        <label *ngIf="!transaction.isEditing">
+          {{ transaction.amount }}
+        </label>
+        <input *ngIf="transaction.isEditing" 
+        [(ngModel)]="transaction.amount" 
+        (ngModelChange)="onFieldChange(transaction, 'amount', $event)" 
+        type="number" />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="transactionType">
+      <th mat-header-cell *matHeaderCellDef> transactionType </th>
+      <td mat-cell *matCellDef="let transaction">
+        <label *ngIf="!transaction.isEditing"
+        [ngStyle]="{'color': transaction.transactionType === 'Deposit' ? 'red' : 'green'}">
+          {{ transaction.transactionType }}
+        </label>
+        <input *ngIf="transaction.isEditing" 
+        [(ngModel)]="transaction.transactionType" 
+        (ngModelChange)="onFieldChange(transaction, 'transactionType', $event)" 
+        />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="transactionDate">
+      <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
+      <td mat-cell *matCellDef="let transaction">
+        {{ transaction.transactionDate | date:'MM/dd/yyyy HH:mm:ss' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let transaction" class="actions-column">
+        <button mat-icon-button (click)="toggleEdit(transaction)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button  (click)="deleteField(transaction)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
